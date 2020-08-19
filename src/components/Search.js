@@ -3,18 +3,19 @@ import axios from 'axios';
 
 const Search = () => {
     const [term, setTerm] = useState('programming');
-    const [debouncedTerm, setDebouncedTerm] = useState(term);
+    const [debouncedTerm, setDebouncedTerm] = useState(term); //added to fix warning msg of missing results.length state array dependency
     const [results, setResults] = useState([]);
     
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            setDebouncedTerm(term)
-        }, 1000)
-
-        return (() => {
-            clearTimeout(timeoutId);
-        });
-
+        if (term) {
+            const timeoutId = setTimeout(() => {
+                setDebouncedTerm(term)
+            }, 1000)
+    
+            return (() => {
+                clearTimeout(timeoutId);
+            });
+        }
     },[term]);
 
     useEffect(() => {
