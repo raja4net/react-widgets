@@ -1,7 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 const Dropdown = ({ options, selected, onSelectedChange }) => {
     const [open, setOpen] = useState(false);
+    const ref = useRef();
+    useEffect(() => {
+        document.body.addEventListener('click', (event) => {
+            if (ref.current.contains(event.target)) {
+                return;
+           }
+            setOpen(false);
+            
+        });
+    });
     const renderedOptions = options.map((option) => {
         //filtering the options so that active option is not shown in list
         if (selected.value === option.value) {
@@ -18,7 +28,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
     });
     
     return (
-        <div className="ui form">
+        <div ref={ref} className="ui form">
             <div className="field">
                 <label className="label">Select a Color</label>
                 <div onClick={() => setOpen(!open)} className={`ui selection dropdown ${open ? 'visible  active' : ''}`}>
