@@ -3,15 +3,24 @@ import React, {useState, useEffect, useRef} from 'react';
 const Dropdown = ({ options, selected, onSelectedChange }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef();
+    const onBodyClick = (event) => {
+        if (ref.current.contains(event.target)) {
+            return;
+       }
+        setOpen(false);
+        
+    }
+        
     useEffect(() => {
-        document.body.addEventListener('click', (event) => {
-            if (ref.current.contains(event.target)) {
-                return;
-           }
-            setOpen(false);
-            
-        });
-    });
+        document.body.addEventListener('click', onBodyClick);
+        
+        //this is a clean up function of useEffect which will be invoked next time useEffect is used
+        return () => {
+            document.body.removeEventListener('click', onBodyClick);
+        };
+
+    }, []); //[] in useEffect means that this useEffect will render only once
+    
     const renderedOptions = options.map((option) => {
         //filtering the options so that active option is not shown in list
         if (selected.value === option.value) {
