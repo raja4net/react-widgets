@@ -22,10 +22,12 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
     }, []); //[] in useEffect means that this useEffect will render only once
     
     const renderedOptions = options.map((option) => {
+        
         //filtering the options so that active option is not shown in list
         if (selected.value === option.value) {
             return null;
         }
+
         return (
             <div
                 className="item"
@@ -48,7 +50,12 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
                     </div>
                 </div>
             </div>
+           
+
         </div>
+        
+            
+         
     );
 };
 
